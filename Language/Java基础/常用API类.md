@@ -283,6 +283,180 @@ All literal strings and string-valued constant expressions are interned.
 
 ### `StringBuilder`
 
+`public final class` `java.lang.StringBuilder` implements `Serializable`, `CharSequence`
+
+#### Introduce
+
+A mutable sequence of characters. This class provides an API compatible with `StringBuffer`, but with no guarantee of synchronization. This class is designed for use as a drop-in replacement for `StringBuffer` in places where the string buffer was being used by a single thread (as is generally the case). Where possible, it is recommended that this class be used in preference to `StringBuffer` as it will be faster under most implementations.
+
+The principal operations on a `StringBuilder` are the `append` and `insert` methods, which are overloaded so as to accept data of any type. Each effectively converts a given datum to a string and then appends or inserts the characters of that string to the string builder. The `append` method always adds these characters at the end of the builder; the `insert` method adds the characters at a specified point.
+
+Every string builder has a capacity. As long as the length of the character sequence contained in the string builder does not exceed the capacity, it is not necessary to allocate a new internal buffer. If the internal buffer overflows, it is automatically made larger.
+
+Instances of `StringBuilder` are not safe for use by multiple threads. If such synchronization is required then it is recommended that `StringBuffer` be used.
+
+#### Constructor
+
+`StringBuilder()` Constructs a string builder with no characters in it and an initial capacity of 16 characters.
+
+`StringBuilder( CharSequence seq )` Constructs a string builder that contains the same characters as the specified `CharSequence`.
+
+`StringBuilder( int capacity )` Constructs a string builder with no characters in it and an initial capacity specified by the `capacity` argument.
+
+`StringBuilder( String str )` Constructs a string builder initialized to the contents of the specified string.
+
+#### 1  `append`
+
+`public StringBuilder append( Object obj )`
+
+Appends the string representation of the `Object` argument.
+
+The overall effect is exactly as if the argument were converted to a string by the method `String.valueOf( Object )` and the characters of that string were then appended to this character sequence.
+
+**Returns** : a reference to this object.
+
+`public StringBuilder append( String str )`
+`public StringBuilder append( CharSequence s )`
+`public StringBuilder append( char[] str )`
+
+#### 2  `appendCodePoint`
+
+`public StringBuilder appendCodePoint( int codePoint )`
+
+Appends the string representation of the `codePoint` argument to this sequence.
+
+The argument is appended to the contents of this sequence. The length of this sequence increases by `Character.charCount( codePoint )`.
+
+The overall effect is exactly as if the argument were converted to a `char` array by the method `Character.toChars( int )` and the character in that array were then appended to this character sequence.
+
+**Returns** : a reference to this object.
+
+#### 3  `delete`
+
+`public StringBuilder delete( int start, int end )`
+
+Removes the characters in a substring of this sequence. The substring begins at the specified `start` and extends to the character at index `end - 1` or to the end of the sequence if no such character exists. If `start` is equal to `end`, no changes are made.
+
+**Parameters** :
+`start` - The beginning index, inclusive.
+`end` - The ending index, exclusive.
+
+**Returns** : a reference to this object.
+
+**Throws** : `StringIndexOutOfBoundsException` - if `start` is negative, greater than `length()`, or greater than `end`.
+
+#### 4  `replace`
+
+`public StringBuilder replace( int start, int end, String str )`
+
+Replaces the characters in a substring of this sequence with characters in the specified `String`. The substring begins at the specified `start` and extends to the character at index `end - 1` or to the end of the sequence if no such character exists. First the characters in the substring are removed and then the specified `String` is inserted at `start`. (This sequence will be lengthened to accommodate the specified String if necessary.)
+
+**Parameters** :
+`start` - The beginning index, inclusive.
+`end` - The ending index, exclusive.
+
+**Returns** : a reference to this object.
+
+**Throws** : `StringIndexOutOfBoundsException` - if `start` is negative, greater than `length()`, or greater than `end`.
+
+#### 5  `insert`
+
+`public StringBuilder insert( int offset, Object obj )`
+
+Inserts the string representation of the `Object` argument into this character sequence.
+
+The overall effect is exactly as if the second argument were converted to a string by the method `String.valueOf( Object )`, and the characters of that string were then inserted into this character sequence at the indicated offset.
+
+The `offset` argument must be greater than or equal to `0`, and less than or equal to the `length()` of this sequence.
+
+**Returns** : a reference to this object.
+
+**Throws** : `StringIndexOutOfBoundsException` - if the offset is invalid.
+
+`public StringBuilder insert( int offset, String str )`
+`public StringBuilder insert( int offset, char[] str )`
+`public StringBuilder insert( int offset, CharSequence s )`
+
+#### 6-1  `indexOf`
+
+`public int indexOf( String str )`
+
+Returns the index within this string of the first occurrence of the specified substring. 
+
+**Returns** : if the string argument occurs as a substring within this object, then the index of the first character of the first such substring is returned; if it does not occur as a substring, `-1` is returned.
+
+#### 6-2  `indexOf`
+
+`public int indexOf( String str, int fromIndex )`
+
+Returns the index within this string of the first occurrence of the specified substring, starting at the specified index.
+
+**Returns** : the index within this string of the first occurrence of the specified substring, starting at the specified index; if it does not occur as a substring, `-1` is returned.
+
+#### 7  `toString`
+
+`public String toString()`
+
+Returns a string representing the data in this sequence. A new `String` object is allocated and initialized to contain the character sequence currently represented by this object.
+
+#### 8  `length`
+
+`public int length()`
+
+Returns the length (character count).
+
+#### 9  `codePointCount`
+
+`public int codePointCount( int beginIndex, int endIndex )`
+
+Returns the number of Unicode code points in the specified text range of this sequence. The text range begins at the specified `beginIndex` and extends to the `char` at index `endIndex - 1`. Thus the length (in `char`s) of the text range is `endIndex-beginIndex`. Unpaired surrogates within this sequence count as one code point each.
+
+**Parameters** :
+
+`beginIndex` - the index to the first `char` of the text range.
+`endIndex` - the index after the last `char` of the text range.
+
+**Throws** : `IndexOutOfBoundsException` - if the `beginIndex` is negative, or `endIndex` is larger than the length of this sequence, or `beginIndex` is larger than `endIndex`.
+
+#### 10  `charAt`
+
+`public char charAt( int index )`
+
+Returns the `char` value in this sequence at the specified index. The index argument must be greater than or equal to `0`, and less than the length of this sequence. If the `char` value specified by the index is a surrogate, the surrogate value is returned.
+
+**Throws** : `IndexOutOfBoundsException` - if `index` is negative or greater than or equal to `length()`.
+
+#### 11  `offsetByCodePoints`
+
+`public int offsetByCodePoints( int index, int codePointOffset )`
+
+Returns the index within this sequence that is offset from the given `index` by `codePointOffset` code points. Unpaired surrogates within the text range given by `index` and `codePointOffset` count as one code point each.
+
+**Throws** : `IndexOutOfBoundsException` - if `index` is negative or larger than the length of this sequence, or if `codePointOffset` is positive and the subsequence starting with `index` has fewer than `codePointOffset` code points, or if `codePointOffset` is negative and the subsequence before `index` has fewer than the absolute value of `codePointOffset` code points.
+
+#### 12  `codePointAt`
+
+`public int codePointAt( int index )`
+
+Returns the character (Unicode code point) at the specified index. The index refers to `char` values (Unicode code units) and ranges from `0` to `length() - 1`.
+
+If the `char` value specified at the given index is in the high-surrogate range, the following index is less than the length of this sequence, and the `char` value at the following index is in the low-surrogate range, then the supplementary code point corresponding to this surrogate pair is returned. Otherwise, the `char` value at the given index is returned.
+
+**Throws** : `IndexOutOfBoundsException` - if the `index` argument is negative or not less than the length of this sequence.
+
+#### 13  `substring`
+
+`public String substring( int start, int end )`
+
+Returns a new `String` that contains a subsequence of characters currently contained in this sequence. The substring begins at the specified `start` and extends to the character at index `end - 1`.
+
+**Parameters** :
+
+`start` - The beginning index, inclusive.
+`end` - The ending index, exclusive.
+
+**Throws** : `StringIndexOutOfBoundsException` - if `start` or `end` are negative or greater than `length()`, or `start` is greater than `end`.
+
 ## 数组
 
 ### `Array`
